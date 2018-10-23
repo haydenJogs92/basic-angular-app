@@ -1,0 +1,23 @@
+<div class="contentBox">
+  <h2>Basic App</h2>
+  <img class="logo" src="../../assets/angular.png" title="angular">
+  <p>
+    This is an example app written with Angular 4.
+  </p>
+  <p>
+    It has a login form and a user details page where you can view user info.
+  </p>
+  <p>
+    This app is not connected to a backend, but you can provide these login credentials to use the app.
+  </p>
+  <p>
+    Email: {{userService.testEmail}}
+  </p>
+  <p>
+    Password: {{userService.testPassword}}
+  </p>
+  <p *ngIf="!userService.isUserLoggedIn()"><a routerLink="/login">Login Here</a></p>
+  <p>
+    You can contact me at: <a target="_blank" href="http://www.haydentbrown.com/contact.php">HaydenTBrown.com</a>
+  </p>
+</div>

@@ -1,0 +1,60 @@
+
+<div class="loginFormBox">  
+  <h2>Welcome</h2>
+  <img class="logo" src="../../assets/angular.png" title="angular">
+  <form [formGroup]="loginForm" >
+      <div class="inputWrapper" [ngClass]="displayValidationState('sEmail')">
+        <input type="text"
+               #sEmailInput
+               formControlName="sEmail"
+               type="email"
+               (focus)="bEmailFocused = true"
+               (blur)="delayBlurEmail()"/>
+         <div class="inputLabelUnfocused"
+              (click)="sEmailInput.focus()"
+              [ngClass]="{'inputLabelFocused' : isValueSet( 'sEmail' ) || bEmailFocused}" >Email</div>
+              <div class="deleteButtonContainer"
+                   (click)="clearInput('sEmail')">
+                   <button [ngClass]="{'displayBlock' : isValueSet( 'sEmail' ) && bEmailFocused && !bPasswordFocused}" class="deleteButton"> x</button>
+              </div>
+      </div>
+      <div class="inputWrapper" [ngClass]="displayValidationState('sPassword')">
+        <input type="password"
+               #sPasswordInput
+               formControlName="sPassword"
+               type="password"
+               (focus)="bPasswordFocused = true"
+               (blur)="delayBlurPassword()" />
+         <div class="inputLabelUnfocused"
+              (click)="sPasswordInput.focus()"
+              [ngClass]="{'inputLabelFocused' : isValueSet( 'sPassword' ) || bPasswordFocused}" >Password</div>
+         <div class="deleteButtonContainer"
+              (click)="clearInput('sPassword')">
+              <button [ngClass]="{'displayBlock' : isValueSet( 'sPassword' ) && bPasswordFocused && !bEmailFocused}" class="deleteButton"> x</button>
+         </div>
+      </div>
+      <div>
+        <button class="submitButton" *ngIf="!loginForm.valid" (click)="showFormErrors()">Sign In</button>
+        <button class="submitButton" *ngIf="loginForm.valid" (click)="loginUser()">Sign In</button>
+      </div>
+      <div *ngIf="bIsProcessingLogin" >
+        <div class="alert alert-info" role="alert">
+          Signing in...
+        </div>
+      </div>
+      <div *ngIf="!bIsProcessingLogin && formErrors" >
+          <div class="alert alert-danger" role="alert">
+            The provided email and password do not match our records.
+          </div>
+      </div>
+      <!--<div class="commonSpacing linkColor">
+        <span class="floatLeft">
+          Sign Up
+        </span>
+        <span class="floatRight">
+          Need Help?
+        </span>
+      </div>-->
+  </form>
+
+</div>

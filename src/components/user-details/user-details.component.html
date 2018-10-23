@@ -1,0 +1,34 @@
+<div class="contentBox">
+  <h2>Account Info</h2>
+  <br>
+  <div class="avatarOuter auto">
+        <div class="avatarInner">
+          {{firstInitial}}{{lastInitial}}
+        </div>
+  </div>
+  <div class="outlineBox auto" margin-top style="margin-top:16px!important;">
+        <div text-center >
+        <strong>{{userData.nameFirst}} {{userData.nameLast}}</strong>
+        <br>
+        {{userData?.email}}
+        </div>
+  </div>
+      <br>
+  <div style="text-align:left;">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" routerLink="/user-details/update-info">
+        <a>Update Account Info</a>
+      </li>
+      <li class="list-group-item" routerLink="/user-details/order-history">
+        <a>View Order History</a>
+      </li>
+      <li class="list-group-item" (click)="userService.logOut()">
+        <a>Logout</a>
+      </li>
+    </ul>
+
+
+
+
+  </div>
+</div>
