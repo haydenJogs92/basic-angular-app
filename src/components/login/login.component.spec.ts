@@ -6,6 +6,9 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
+  //before each test, get a new instance of our component - the set up
+  //you can use afterEach to clean up after test - the tear down 
+  //or afterAll
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginComponent ]

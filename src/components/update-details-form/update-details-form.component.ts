@@ -13,18 +13,18 @@ import {UserData} from '../../models/models';
 export class UpdateDetailsFormComponent implements OnInit {
 
 
-    private updateDetailsForm: FormGroup;
-    private bFormErrors: boolean = false;
-    private bFirstNameFocused: boolean = false;
-    private bLastNameFocused: boolean = false;
-    private bEmailFocused: boolean = false;
-    private bPhoneFocused: boolean = false;
-    private userData: UserData;
-    private bUpdateSuccess: boolean = false;
-    private bUpdatingUserInfo: boolean = false;
+    public updateDetailsForm: FormGroup;
+    public bFormErrors: boolean = false;
+    public bFirstNameFocused: boolean = false;
+    public bLastNameFocused: boolean = false;
+    public bEmailFocused: boolean = false;
+    public bPhoneFocused: boolean = false;
+    public userData: UserData;
+    public bUpdateSuccess: boolean = false;
+    public bUpdatingUserInfo: boolean = false;
 
 
-  constructor(private form: FormBuilder, private userService: UserService) {}
+  constructor(public form: FormBuilder, public userService: UserService) {}
 
   ngOnInit()
   {

@@ -22,7 +22,7 @@ export class UserService
   public testPassword: string = 'test';
 
 
-  constructor( private http: Http, private authHttp: AuthHttp, private router: Router, private currentRoute: ActivatedRoute ){}
+  constructor( public http: Http, public authHttp: AuthHttp, public router: Router, public currentRoute: ActivatedRoute ){}
 
 
   //send a request to a fake backend

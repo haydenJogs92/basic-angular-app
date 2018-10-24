@@ -15,7 +15,7 @@ export class UserDetailsComponent implements OnInit {
   public lastInitial: string;
   public showOrderHistory: boolean = false;
 
-  constructor( private userService: UserService ) { }
+  constructor( public userService: UserService ) { }
 
   ngOnInit()
   {

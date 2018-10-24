@@ -15,15 +15,15 @@ import { ValidationService } from '../../services/validation-service'
 export class LoginFormComponent
 {
 
-  private loginForm: FormGroup;
-  private formErrors: boolean = false;
-  private bEmailFocused: boolean = false;
-  private bPasswordFocused: boolean = false;
-  private bIsProcessingLogin: boolean = false;
+  public loginForm: FormGroup;
+  public formErrors: boolean = false;
+  public bEmailFocused: boolean = false;
+  public bPasswordFocused: boolean = false;
+  public bIsProcessingLogin: boolean = false;
 
 
-  constructor( private userService: UserService,
-               private form: FormBuilder) {}
+  constructor( public userService: UserService,
+               public form: FormBuilder) {}
 
     ngOnInit()
     {
@@ -66,6 +66,8 @@ export class LoginFormComponent
     {
       return this.loginForm.controls[keyName].value != "" ? true : false;
     }
+
+
 
     loginUser()
     {

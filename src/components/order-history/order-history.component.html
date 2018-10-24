@@ -4,11 +4,16 @@
   <div *ngIf="!bIsProcessingRequest">
     <ul class="list-group list-group-flush" style="text-align:left;">
       <li class="list-group-item" *ngFor="let order of userOrderHistory?.orders" (click)="showOrderDetails( order.orderID )">
-        <p style="display:inline;"><strong class="linkBlue">{{order.orderName}}</strong></p>
+
+        <p class="displayInline"><strong class="linkBlue">
+          <span [hidden]="!isOrderDetailsVisible( order.orderID )">+</span>
+          <span [hidden]="isOrderDetailsVisible( order.orderID )">-&nbsp;</span>
+          {{order.orderName}}
+        </strong></p>
         <span style="float:right;display:inline;">{{order.orderDate}}</span>
         <ul [hidden]="isOrderDetailsVisible( order.orderID )">
           <li>Quantity: {{order.orderQuantity}}</li>
-          <li>Cost: ${{order.orderValue}}</li>
+          <li>Cost: ${{order.orderValue | number:'1.2'}}</li>
           <li>Order ID: {{order.orderID}}</li>
         </ul>
       </li>

@@ -23,8 +23,17 @@ export class Order
   public orderID:number;
   public orderName:string;
   public orderValue:number;
+  public orderUnitPrice:number;
   public orderQuantity:number;
   public orderDate:string;
   //for now, all orders belong to one user
   public foreignKeyUserID:number =  1;
+}
+
+
+export class Product
+{
+  public productID: number;
+  public productName: string;
+  public productPrice: number;
 }

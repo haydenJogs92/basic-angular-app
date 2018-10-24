@@ -8,12 +8,12 @@ import { UserService } from '../../services/user-service'
 })
 export class NavBarComponent implements OnInit {
 
-  private navBarOpen: boolean = false;
+  public navBarOpen: boolean = false;
 
-  constructor( private userService: UserService ) { }
+  constructor( public userService: UserService ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit()
+  {    }
 
 
 }

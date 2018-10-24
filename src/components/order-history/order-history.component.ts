@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserOrderHistory, Order } from  '../../models/models';
 import { UserService } from '../../services/user-service'
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-order-history',
@@ -10,12 +11,12 @@ import { UserService } from '../../services/user-service'
 export class OrderHistoryComponent implements OnInit {
 
 
-  private userOrderHistory: UserOrderHistory;
-  private bRequestError: boolean = false;
-  private bIsProcessingRequest: boolean = false;
-  private aShowOrderDetailsIDs: Array<number> = [];
+  public userOrderHistory: UserOrderHistory;
+  public bRequestError: boolean = false;
+  public bIsProcessingRequest: boolean = false;
+  public aShowOrderDetailsIDs: Array<number> = [];
 
-  constructor( private userService: UserService ) { }
+  constructor( public userService: UserService ) { }
 
   ngOnInit()
   {

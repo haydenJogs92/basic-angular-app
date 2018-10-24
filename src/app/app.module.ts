@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { HttpModule, BaseRequestOptions, Http } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -18,18 +19,22 @@ import { UpdateDetailsComponent } from '../components/update-details/update-deta
 import { UpdateDetailsFormComponent } from '../components/update-details-form/update-details-form.component';
 import { OrderHistoryComponent } from '../components/order-history/order-history.component';
 import { FooterComponent } from '../components/footer/footer.component';
+import { MakeOrderComponent } from '../components/make-order/make-order.component';
+
 
 //models
-import {UserData,UserOrderHistory,Order} from '../models/models';
+import {UserData,UserOrderHistory,Order,Product} from '../models/models';
 
 //services
 import { UserService } from '../services/user-service';
+import { OrderService } from '../services/order-service';
 import { ValidationService } from '../services/validation-service';
 import { AuthGuard } from '../services/auth-guard-service';
 
 
 //use for passing token in http request to access protected api endpoints
 import { AuthHttp, AUTH_PROVIDERS, provideAuth, AuthConfig } from 'angular2-jwt/angular2-jwt';
+
 
 //when using auth http, tell authHttp the name of token in local storage
 export function getAuthHttp(http) {
@@ -51,14 +56,15 @@ export function getAuthHttp(http) {
     UpdateDetailsComponent,
     UpdateDetailsFormComponent,
     FooterComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    MakeOrderComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-
+    CommonModule,
 
 
     //for routes
@@ -74,6 +80,10 @@ export function getAuthHttp(http) {
        component: UpdateDetailsComponent,
        canActivate: [AuthGuard]
       },
+      {path: 'user-details/make-order',
+       component: MakeOrderComponent,
+       canActivate: [AuthGuard]
+      },
       {path: 'user-details/order-history',
        component: OrderHistoryComponent,
        canActivate: [AuthGuard]
@@ -83,6 +93,7 @@ export function getAuthHttp(http) {
   ],
   providers: [
     UserService,
+    OrderService,
     ValidationService,
     AuthGuard,
     AuthHttp,
