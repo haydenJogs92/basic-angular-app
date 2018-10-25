@@ -116,6 +116,9 @@ export class UpdateDetailsFormComponent implements OnInit {
       case 'email':
       setTimeout( () => {this.bEmailFocused =false;},200 )
       break;
+      case 'phone':
+      setTimeout( () => {this.bPhoneFocused =false;},200 )
+      break;
     }
   }
 
