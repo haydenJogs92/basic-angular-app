@@ -20,7 +20,7 @@ import { UpdateDetailsFormComponent } from '../components/update-details-form/up
 import { OrderHistoryComponent } from '../components/order-history/order-history.component';
 import { FooterComponent } from '../components/footer/footer.component';
 import { MakeOrderComponent } from '../components/make-order/make-order.component';
-
+import { FloatingLabelInputComponent } from '../components/floating-label-input/floating-label-input.component';
 
 //models
 import {UserData,UserOrderHistory,Order,Product} from '../models/models';
@@ -34,6 +34,7 @@ import { AuthGuard } from '../services/auth-guard-service';
 
 //use for passing token in http request to access protected api endpoints
 import { AuthHttp, AUTH_PROVIDERS, provideAuth, AuthConfig } from 'angular2-jwt/angular2-jwt';
+
 
 
 //when using auth http, tell authHttp the name of token in local storage
@@ -58,6 +59,7 @@ export function getAuthHttp(http) {
     FooterComponent,
     OrderHistoryComponent,
     MakeOrderComponent,
+    FloatingLabelInputComponent,
   ],
   imports: [
     BrowserModule,

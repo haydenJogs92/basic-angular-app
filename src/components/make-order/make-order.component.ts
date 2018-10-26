@@ -47,6 +47,7 @@ export class MakeOrderComponent implements OnInit {
         {
           this.updateCart( value );
         }
+        this.bFormErrors = false;
     });
   }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 //Services
 import { UserService } from '../../services/user-service'
@@ -17,10 +18,7 @@ export class LoginFormComponent
 
   public loginForm: FormGroup;
   public formErrors: boolean = false;
-  public bEmailFocused: boolean = false;
-  public bPasswordFocused: boolean = false;
   public bIsProcessingLogin: boolean = false;
-
 
   constructor( public userService: UserService,
                public form: FormBuilder) {}
@@ -30,7 +28,6 @@ export class LoginFormComponent
       this.initializeLoginForm();
     }
 
-
     initializeLoginForm()
     {
       this.loginForm = this.form.group({
@@ -38,36 +35,6 @@ export class LoginFormComponent
         sPassword : ['', Validators.required],
         });
     }
-
-    displayValidationState( keyName: string )
-    {
-      let formInput = (<FormControl>this.loginForm.controls[keyName]);
-      if ( formInput.touched  )
-      {
-        if ( formInput.valid )
-        {
-          return 'validInput'
-        }
-        else
-        {
-          return 'invalidInput';
-        }
-      }
-    }
-
-
-    clearInput( keyName: string )
-    {
-      (<FormControl>this.loginForm.controls[keyName]).setValue("");
-      (<FormControl>this.loginForm.controls[keyName]).markAsUntouched();
-    }
-
-    isValueSet( keyName: string )
-    {
-      return this.loginForm.controls[keyName].value != "" ? true : false;
-    }
-
-
 
     loginUser()
     {
@@ -80,9 +47,6 @@ export class LoginFormComponent
           }
           this.bIsProcessingLogin = false;
       })
-
-
-      //
     }
 
     showFormErrors()
@@ -94,14 +58,5 @@ export class LoginFormComponent
       this.formErrors = true;
     }
 
-
-    delayBlurEmail()
-    {
-      setTimeout( () => {this.bEmailFocused =false;},200 )
-    }
-    delayBlurPassword()
-    {
-      setTimeout( () => {this.bPasswordFocused =false;},200 )
-    }
 
 }

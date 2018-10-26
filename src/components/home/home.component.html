@@ -16,7 +16,8 @@
   <p>
     Password: {{userService.testPassword}}
   </p>
-  <p *ngIf="!userService.isUserLoggedIn()"><a routerLink="/login">Login Here</a></p>
+  <button class="submitButton" *ngIf="userService.isUserLoggedIn()" (click)="router.navigate(['/user-details'])">View My Account</button>
+  <button class="submitButton" *ngIf="!userService.isUserLoggedIn()"(click)="router.navigate(['/login'])">Login Here</button>
   <p>
     You can contact me at: <a target="_blank" href="http://www.haydentbrown.com/contact.php">HaydenTBrown.com</a>
   </p>

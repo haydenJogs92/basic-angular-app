@@ -1,71 +1,36 @@
 <form [formGroup]="updateDetailsForm" >
 
+  <floating-label-input
+    [parentForm]="updateDetailsForm"
+    [labelName]="'First Name'"
+    [formControlNameString]="'sFirstName'"
+    [inputType]="'text'"
+    [maxLength]="40"
+    ></floating-label-input>
 
-  <div class="inputWrapper" [ngClass]="displayValidationState('sFirstName')">
-    <input #sFirstNameInput
-           formControlName="sFirstName"
-           type="text"
-           (focus)="bFirstNameFocused = true"
-           (blur)="delayInputBlur('firstName')"/>
-     <div class="inputLabelUnfocused"
-          (click)="sFirstNameInput.focus()"
-          [ngClass]="{'inputLabelFocused' : isValueSet( 'sFirstName' ) || bFirstNameFocused}" >First Name</div>
-          <div class="deleteButtonContainer"
-               (click)="clearInput('sFirstName')">
-               <button [ngClass]="{'displayBlock' : isValueSet( 'sFirstName' ) && bFirstNameFocused}" class="deleteButton"> x</button>
-          </div>
-  </div>
+  <floating-label-input
+    [parentForm]="updateDetailsForm"
+    [labelName]="'Last Name'"
+    [formControlNameString]="'sLastName'"
+    [inputType]="'text'"
+    [maxLength]="40"
+    ></floating-label-input>
 
+  <floating-label-input
+    [parentForm]="updateDetailsForm"
+    [labelName]="'Email'"
+    [formControlNameString]="'sEmail'"
+    [inputType]="'text'"
+    [maxLength]="40"
+    ></floating-label-input>
 
-  <div class="inputWrapper" [ngClass]="displayValidationState('sLastName')">
-    <input #sLastNameInput
-           formControlName="sLastName"
-           type="text"
-           (focus)="bLastNameFocused = true"
-           (blur)="delayInputBlur('lastName')"/>
-     <div class="inputLabelUnfocused"
-          (click)="sLastNameInput.focus()"
-          [ngClass]="{'inputLabelFocused' : isValueSet( 'sLastName' ) || bLastNameFocused}" >Last Name</div>
-          <div class="deleteButtonContainer"
-               (click)="clearInput('sLastName')">
-               <button [ngClass]="{'displayBlock' : isValueSet( 'sLastName' ) && bLastNameFocused}" class="deleteButton"> x</button>
-          </div>
-  </div>
-
-
-
-    <div class="inputWrapper" [ngClass]="displayValidationState('sEmail')">
-      <input #sEmailInput
-             formControlName="sEmail"
-             type="email"
-             (focus)="bEmailFocused = true"
-             (blur)="delayInputBlur('email')"/>
-       <div class="inputLabelUnfocused"
-            (click)="sEmailInput.focus()"
-            [ngClass]="{'inputLabelFocused' : isValueSet( 'sEmail' ) || bEmailFocused}" >Email</div>
-            <div class="deleteButtonContainer"
-                 (click)="clearInput('sEmail')">
-                 <button [ngClass]="{'displayBlock' : isValueSet( 'sEmail' ) && bEmailFocused}" class="deleteButton"> x</button>
-            </div>
-    </div>
-
-
-    <div class="inputWrapper" [ngClass]="displayValidationState('sPhone')">
-      <input type="tel"
-             #sPhoneInput
-             formControlName="sPhone"
-             (focus)="bPhoneFocused = true"
-             (blur)="delayInputBlur('phone')"/>
-       <div class="inputLabelUnfocused"
-            (click)="sPhoneInput.focus()"
-            [ngClass]="{'inputLabelFocused' : isValueSet( 'sPhone' ) || bPhoneFocused}" >Phone</div>
-            <div class="deleteButtonContainer"
-                 (click)="clearInput('sPhone')">
-                 <button [ngClass]="{'displayBlock' : isValueSet( 'sPhone' ) && bPhoneFocused}" class="deleteButton"> x</button>
-            </div>
-    </div>
-
-
+  <floating-label-input
+    [parentForm]="updateDetailsForm"
+    [labelName]="'Phone'"
+    [formControlNameString]="'sPhone'"
+    [inputType]="'tel'"
+    [maxLength]="10"
+    ></floating-label-input>
 
     <div>
       <button class="submitButton" *ngIf="!updateDetailsForm.valid" (click)="showFormErrors()">Update Details</button>

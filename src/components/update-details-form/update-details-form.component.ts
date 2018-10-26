@@ -15,14 +15,9 @@ export class UpdateDetailsFormComponent implements OnInit {
 
     public updateDetailsForm: FormGroup;
     public bFormErrors: boolean = false;
-    public bFirstNameFocused: boolean = false;
-    public bLastNameFocused: boolean = false;
-    public bEmailFocused: boolean = false;
-    public bPhoneFocused: boolean = false;
     public userData: UserData;
     public bUpdateSuccess: boolean = false;
     public bUpdatingUserInfo: boolean = false;
-
 
   constructor(public form: FormBuilder, public userService: UserService) {}
 
@@ -41,17 +36,14 @@ export class UpdateDetailsFormComponent implements OnInit {
       sEmail : ['', [Validators.required, ValidationService.isEmailValid] ],
       });
 
-
       this.setFormValues();
   }
 
 
   setFormValues()
   {
-
     if ( this.userService.isUserLoggedIn() )
     {
-
       if ( this.userData )
       {
         (<FormControl>this.updateDetailsForm.controls['sFirstName']).setValue( this.userData.nameFirst );
@@ -59,9 +51,7 @@ export class UpdateDetailsFormComponent implements OnInit {
         (<FormControl>this.updateDetailsForm.controls['sEmail']).setValue( this.userData.email );
         (<FormControl>this.updateDetailsForm.controls['sPhone']).setValue( this.userData.phone );
       }
-
     }
-
   }
 
   showFormErrors()
@@ -73,54 +63,6 @@ export class UpdateDetailsFormComponent implements OnInit {
     this.bFormErrors = true;
   }
 
-
-  displayValidationState( keyName: string )
-  {
-    let formInput = (<FormControl>this.updateDetailsForm.controls[keyName]);
-    if ( formInput.touched  )
-    {
-      if ( formInput.valid )
-      {
-        return 'validInput'
-      }
-      else
-      {
-        return 'invalidInput';
-      }
-    }
-  }
-
-
-  clearInput( keyName: string )
-  {
-    (<FormControl>this.updateDetailsForm.controls[keyName]).setValue("");
-    (<FormControl>this.updateDetailsForm.controls[keyName]).markAsUntouched();
-  }
-
-  isValueSet( keyName: string )
-  {
-    return this.updateDetailsForm.controls[keyName].value != "" ? true : false;
-  }
-
-
-  delayInputBlur( inputName: string )
-  {
-    switch( inputName )
-    {
-      case 'firstName':
-      setTimeout( () => {this.bFirstNameFocused =false;},200 )
-      break;
-      case 'lastName':
-      setTimeout( () => {this.bLastNameFocused =false;},200 )
-      break;
-      case 'email':
-      setTimeout( () => {this.bEmailFocused =false;},200 )
-      break;
-      case 'phone':
-      setTimeout( () => {this.bPhoneFocused =false;},200 )
-      break;
-    }
-  }
 
 
   updateDetails()

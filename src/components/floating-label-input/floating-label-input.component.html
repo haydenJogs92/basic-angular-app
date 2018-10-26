@@ -1,0 +1,28 @@
+
+
+<div [formGroup]="parentForm">
+
+  <div class="inputWrapper" [ngClass]="displayValidationState()">
+    <!-- Input -->
+    <input type="inputType"
+           #InputElementRef
+           formControlName="{{formControlNameString}}"
+           type="email"
+           maxlength="{{maxLength}}"
+           (focus)="bIsInputFocused = true"
+           (blur)="delayInputBlur()"/>
+
+    <!-- Lable -->
+     <div class="inputLabelUnfocused"
+          (click)="InputElementRef.focus()"
+          [ngClass]="{'inputLabelFocused' : isValueSet() || bIsInputFocused}" >{{labelName}}
+    </div>
+
+    <!-- Delete Button -->
+    <div class="deleteButtonContainer"
+         (click)="clearInput()">
+         <button [ngClass]="{'displayBlock' : isValueSet() && bIsInputFocused}" class="deleteButton"> x</button>
+    </div>
+
+  </div>
+</div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
 import { UserService } from '../../services/user-service';
 
 @Component({
@@ -8,7 +9,7 @@ import { UserService } from '../../services/user-service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor( public userService: UserService ) { }
+  constructor( public userService: UserService, public router: Router ) { }
 
   ngOnInit() {
   }

@@ -1,0 +1,13 @@
+
+
+ng build --prod --base-href="https://haydenjogs92.github.io/basic-angular-app/"
+
+git add *
+
+git commit -m "commit message"
+
+git push origin master
+
+git add dist && git commit -m "Initial dist subtree commit"
+
+git subtree push --prefix dist origin gh-pages
