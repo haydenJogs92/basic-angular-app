@@ -17,11 +17,11 @@
       </li>
 
       <li *ngIf="userService.isUserLoggedIn()" class="nav-item" routerLinkActive="active current">
-        <a class="nav-link" routerLink="/user-details">My Account</a>
+        <a class="nav-link" [routerLink]="['/user/', userService.userID]" id="myAccountLink">My Account</a>
       </li>
 
       <li  *ngIf="userService.isUserLoggedIn()" class="nav-item" routerLinkActive="active current">
-        <a class="nav-link" (click)="userService.logOut()">Logout</a>
+        <a class="nav-link" (click)="userService.logOut()" id="logoutLink">Logout</a>
       </li>
     </ul>
   </div>

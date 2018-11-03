@@ -1,0 +1,26 @@
+
+.orderDetailsBox
+{
+  text-align:left;
+  width:100%;
+  padding:15px;
+  background-color:#f8f9fa;
+}
+
+
+.orderDetailsHeader
+{
+  text-align:center;
+}
+
+
+.orderValue
+{
+  float:right;
+}
+
+
+.totalLine
+{    border-top: solid 1px;
+    padding-top: 0.5rem;
+  }

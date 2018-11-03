@@ -1,0 +1,20 @@
+<div class="orderDetailsBox">
+  <div class="orderDetailsHeader">
+  <label class="bold">{{orderDetails.orderName}}</label>
+  <span *ngIf="bIsCompletedOrder">
+    <br>
+    <label>Confirmation ID:</label> {{orderDetails.orderID}}
+    <br>
+    {{orderDetails.orderDate}}
+  </span>
+  </div>
+  <label class="bold">Order Details</label>
+  <br>
+  <label>Unit Price</label> <span class="orderValue">${{orderDetails.orderUnitPrice | number:'1.2'}}</span>
+  <br>
+  <label>Quantity</label> <span class="orderValue">{{orderDetails.orderQuantity}}</span>
+  <br>
+  <div class="totalLine">
+    <label>Total</label> <span class="orderValue bold">${{orderDetails.orderValue | number:'1.2'}}</span>
+  </div>
+</div>

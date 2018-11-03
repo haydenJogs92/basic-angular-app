@@ -1,80 +1,16 @@
 <div class="contentBox">
-  <div *ngIf="!bShowOrderSuccess">
 
-      <h2>Submit Order</h2>
-      <br>
-      <div *ngIf="!bIsProcessingProductsRequest">
-        <form [formGroup]="orderForm" style="text-align:left;">
-          <div class="form-group">
-            <label>Order Item</label>
-            <select formControlName="sProduct" class="form-control">
-              <option></option>
-              <option *ngFor="let product of aAvailableProducts" value="{{product.productName}}">{{product.productName}} - ${{product.productPrice}}</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Order Quantity</label>
-            <select class="form-control"  formControlName="sQuantity">
-              <option *ngFor="let quantity of aMaxOrderSelect">{{quantity}}</option>
-            </select>
-          </div>
-          <div *ngIf="currentOrder">
-            <div class="cartBox">
-              <h3 style="text-align:center;">Cart</h3>
-              <p><label>Order Item:</label> {{currentOrder.orderName}}</p>
-              <p><label>Unit Price:</label> ${{currentOrder.orderUnitPrice | number:'1.2'}}</p>
-              <p><label>Quantity:</label> {{currentOrder.orderQuantity}}</p>
-              <div class="totalLine">
-                <p><label>Total Price:</label> ${{currentOrder.orderValue | number:'1.2'}}</p>
-              </div>
-            </div>
-          </div>
-          <button class="submitButton" *ngIf="!orderForm.valid" (click)="bFormErrors = true;">Submit Order</button>
-          <button class="submitButton" *ngIf="orderForm.valid" (click)="submitOrder()">Submit Order</button>
-        </form>
-
-
-        <div *ngIf="bFormErrors">
-          <div class="alert alert-danger" role="alert">
-            Unable to submit order
-          </div>
-        </div>
-        <div *ngIf="bRequestError">
-          <div class="alert alert-danger" role="alert">
-            Unable To Load Available Products
-          </div>
-        </div>
-      </div>
-      <div *ngIf="bIsProcessingProductsRequest">
-        <div class="alert alert-info" role="alert">
-          Loading Available Products...
-        </div>
-      </div>
-      <div *ngIf="bIsProcessingOrderRequest">
-        <div class="alert alert-info" role="alert">
-          Processing Order...
-        </div>
-      </div>
-  </div>
+  <order-form></order-form>
 
 
   <div *ngIf="bShowOrderSuccess">
     <div class="alert alert-success" role="alert">
       Order Successfully Processed!
     </div>
-    <div class="cartBox" style="text-align:left;">
-      <h3>Order Summary</h3>
-      <p><label>Order Item:</label> {{successfulOrder.orderName}}</p>
-      <p><label>Unit Price:</label> ${{successfulOrder.orderUnitPrice | number:'1.2'}}</p>
-      <p><label>Quantity:</label> {{successfulOrder.orderQuantity}}</p>
-      <div class="totalLine">
-        <p><label>Total Price:</label> ${{successfulOrder.orderValue | number:'1.2'}}</p>
-      </div>
-      <p><label>Order Confirmation ID:</label> {{successfulOrder.orderID}} </p>
-    </div>
+    <order-details [bIsCompletedOrder]="true" [orderDetails]="successfulOrder"></order-details>              
   </div>
 
 
-<p><a class="nav-link" routerLink="/user-details">Back To My Account</a></p>
-<p><a class="nav-link" routerLink="/user-details/order-history">View Order History</a></p>
+<p><a class="nav-link" [routerLink]="['/user/', userService.userID]">Back To My Account</a></p>
+<p><a class="nav-link" [routerLink]="['/user/', userService.userID, 'order-history']">View Order History</a></p>
 </div>

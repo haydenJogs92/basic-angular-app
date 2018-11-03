@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user-service'
 
 @Component({
   selector: 'app-update-details',
@@ -8,7 +7,7 @@ import { UserService } from '../../services/user-service'
 })
 export class UpdateDetailsComponent implements OnInit {
 
-  constructor(public userService: UserService) { }
+  constructor() { }
 
   ngOnInit() {
   }

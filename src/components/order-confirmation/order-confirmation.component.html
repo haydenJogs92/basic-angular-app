@@ -1,0 +1,15 @@
+<div class="contentBox">
+  <h3>Order Confirmation</h3>
+  <div *ngIf="orderDetails">
+    <order-details [bIsCompletedOrder]="true"
+                   [orderDetails]="orderDetails">
+    </order-details>
+    <br>
+    <div class="alert alert-success">
+      Thank you for purchasing {{orderDetails.orderName}}!
+    </div>
+  </div>
+
+  <p><a class="nav-link" [routerLink]="['/user/', userService.userID]">Back To My Account</a></p>
+  <p><a class="nav-link" [routerLink]="['/user/', userService.userID, 'order-history']">View Order History</a></p>
+</div>

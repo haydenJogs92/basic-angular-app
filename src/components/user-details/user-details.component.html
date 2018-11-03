@@ -8,22 +8,22 @@
   </div>
   <div class="outlineBox auto" margin-top style="margin-top:16px!important;">
         <div text-center >
-        <strong>{{userData.nameFirst}} {{userData.nameLast}}</strong>
+        <strong>{{userDetails.nameFirst}} {{userDetails.nameLast}}</strong>
         <br>
-        {{userData?.email}}
+        {{userDetails.email}}
         </div>
   </div>
       <br>
   <div style="text-align:left;">
     <ul class="list-group list-group-flush">
-      <li class="list-group-item" routerLink="/user-details/update-info">
+      <li class="list-group-item" [routerLink]="['/user/', userService.userID, 'update-info']">
         <a>Update Account Info</a>
       </li>
-      <li class="list-group-item" routerLink="/user-details/make-order/">
+      <li class="list-group-item" [routerLink]="['/user/', userService.userID, 'make-order']">
         Make Order
       </li>
 
-      <li class="list-group-item" routerLink="/user-details/order-history">
+      <li class="list-group-item" [routerLink]="['/user/', userService.userID, 'order-history']">
         View Order History
       </li>
       <li class="list-group-item" (click)="userService.logOut()">

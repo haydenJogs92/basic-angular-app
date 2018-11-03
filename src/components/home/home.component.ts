@@ -14,4 +14,14 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
+  navigateToMyAccount()
+  {
+    this.router.navigate(['/user/', this.userService.userID]);
+  }
+
+  navigateToLogin()
+  {
+      this.router.navigate(['/login']);
+  }
+
 }

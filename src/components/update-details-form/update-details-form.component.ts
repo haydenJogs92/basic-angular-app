@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ValidationService } from '../../services/validation-service'
+import { ActivatedRoute } from '@angular/router'
 import { UserService } from '../../services/user-service'
 
 import {UserData} from '../../models/models';
@@ -19,11 +20,13 @@ export class UpdateDetailsFormComponent implements OnInit {
     public bUpdateSuccess: boolean = false;
     public bUpdatingUserInfo: boolean = false;
 
-  constructor(public form: FormBuilder, public userService: UserService) {}
+  constructor( public form: FormBuilder,
+               public userService: UserService,
+               public route: ActivatedRoute) {}
 
   ngOnInit()
   {
-    this.userData = this.userService.getUserInfoFromStorage();
+    this.userData = this.route.snapshot.data['userDetails'];
     this.initializeUpdateDetailsForm();
   }
 
@@ -71,10 +74,7 @@ export class UpdateDetailsFormComponent implements OnInit {
     this.userService.userUpdateDetails( this.updateDetailsForm.value )
     .subscribe( result => {
         if ( result )
-        {
-          //if success, update user details in form
-          this.userData = this.userService.getUserInfoFromStorage();
-          this.setFormValues()
+        {          
           this.bFormErrors = false;
           this.bUpdateSuccess = true;
         }

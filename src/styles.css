@@ -28,6 +28,11 @@ body {
   color:white;
 }
 
+.bold
+{
+  font-weight: bold;
+}
+
 .logo
 {
   width:40px;

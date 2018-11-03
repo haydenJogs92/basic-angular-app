@@ -30,6 +30,11 @@
           Signing in...
         </div>
       </div>
+      <div *ngIf="bLoginSuccess">
+        <div class="alert alert-success">
+          Sign in Success!
+        </div>
+      </div>
       <div *ngIf="!bIsProcessingLogin && formErrors" >
           <div class="alert alert-danger" role="alert">
             The provided email and password do not match our records.

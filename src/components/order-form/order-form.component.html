@@ -1,0 +1,43 @@
+<h2>Submit Order</h2>
+<br>
+<form [formGroup]="orderForm" style="text-align:left;">
+  <div class="form-group">
+    <label>Order Item</label>
+    <select formControlName="sProduct" class="form-control">
+      <option></option>
+      <option *ngFor="let product of aAvailableProducts" value="{{product.productName}}">{{product.productName}} - ${{product.productPrice}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Order Quantity</label>
+    <select class="form-control"  formControlName="sQuantity">
+      <option *ngFor="let quantity of aMaxOrderSelect">{{quantity}}</option>
+    </select>
+  </div>
+
+  <div *ngIf="currentOrder">
+    <label>Order Cart</label>
+    <order-details [orderDetails]="currentOrder"></order-details>
+  </div>
+
+  <button class="submitButton" *ngIf="!orderForm.valid" (click)="this.bFormErrors = true;">Submit Order</button>
+  <button class="submitButton" *ngIf="orderForm.valid" (click)="submitOrder()">Submit Order</button>
+</form>
+
+<div *ngIf="bFormErrors">
+  <div class="alert alert-danger" role="alert">
+    Unable to Submit Order
+  </div>
+</div>
+
+<div *ngIf="bIsProcessingOrderRequest">
+  <div class="alert alert-info" role="alert">
+    Processing Order...
+  </div>
+</div>
+
+<div *ngIf="bOrderComplete">
+  <div class="alert alert-success">
+    Order Success!
+  </div>
+</div>

@@ -20,7 +20,11 @@ import { UpdateDetailsFormComponent } from '../components/update-details-form/up
 import { OrderHistoryComponent } from '../components/order-history/order-history.component';
 import { FooterComponent } from '../components/footer/footer.component';
 import { MakeOrderComponent } from '../components/make-order/make-order.component';
+import { OrderFormComponent } from '../components/order-form/order-form.component';
+import { OrderDetailsComponent } from '../components/order-details/order-details.component';
 import { FloatingLabelInputComponent } from '../components/floating-label-input/floating-label-input.component';
+import { OrderConfirmationComponent } from '../components/order-confirmation/order-confirmation.component';
+
 
 //models
 import {UserData,UserOrderHistory,Order,Product} from '../models/models';
@@ -32,8 +36,24 @@ import { ValidationService } from '../services/validation-service';
 import { AuthGuard } from '../services/auth-guard-service';
 
 
+//resolvers
+import { UserDetailsResolve } from '../resolvers/user-details.resolve'
+import { OrderHistoryResolve } from '../resolvers/order-history.resolve'
+import { OrderProductsListResolve } from '../resolvers/order-products-list.resolve'
+import { OrderConfirmationResolve } from '../resolvers/order-confirmation.resolve';
+
+//routes
+import { routes } from './app.routes'
+
 //use for passing token in http request to access protected api endpoints
 import { AuthHttp, AUTH_PROVIDERS, provideAuth, AuthConfig } from 'angular2-jwt/angular2-jwt';
+
+
+
+
+
+
+
 
 
 
@@ -60,6 +80,9 @@ export function getAuthHttp(http) {
     OrderHistoryComponent,
     MakeOrderComponent,
     FloatingLabelInputComponent,
+    OrderFormComponent,
+    OrderConfirmationComponent,
+    OrderDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,34 +90,15 @@ export function getAuthHttp(http) {
     ReactiveFormsModule,
     HttpModule,
     CommonModule,
-
-
     //for routes
-    RouterModule.forRoot([
-      {path: '',  component: HomeComponent },
-      {path: 'login',  component: LoginComponent },
-      {path: 'user-details',
-       component: UserDetailsComponent,
-       //protect this route from unnauthorized users
-       canActivate: [AuthGuard]
-      },
-      {path: 'user-details/update-info',
-       component: UpdateDetailsComponent,
-       canActivate: [AuthGuard]
-      },
-      {path: 'user-details/make-order',
-       component: MakeOrderComponent,
-       canActivate: [AuthGuard]
-      },
-      {path: 'user-details/order-history',
-       component: OrderHistoryComponent,
-       canActivate: [AuthGuard]
-      },
-      {path: '**',  component: NotFoundComponent },
-    ])
+    RouterModule.forRoot( routes )
   ],
   providers: [
     UserService,
+    UserDetailsResolve,
+    OrderHistoryResolve,
+    OrderConfirmationResolve,
+    OrderProductsListResolve,
     OrderService,
     ValidationService,
     AuthGuard,

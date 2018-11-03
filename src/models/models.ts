@@ -3,7 +3,7 @@
 export class UserData
 {
 
-  public userID:number =  1;
+  public userID:number =  324231;
 
   public nameFirst:string;
   public nameLast:string;
@@ -28,6 +28,12 @@ export class Order
   public orderDate:string;
   //for now, all orders belong to one user
   public foreignKeyUserID:number =  1;
+}
+
+
+export class ProductList
+{
+  public products:Array<Product>
 }
 
 

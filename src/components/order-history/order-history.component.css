@@ -1,7 +1,9 @@
-.list-group-item
+
+.clickable
 {
   cursor: pointer;
 }
+
 .displayInline
 {
   display:inline;

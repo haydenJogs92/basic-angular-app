@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserOrderHistory, Order } from  '../../models/models';
 import { UserService } from '../../services/user-service'
-import { DecimalPipe } from '@angular/common';
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-order-history',
@@ -12,37 +12,18 @@ export class OrderHistoryComponent implements OnInit {
 
 
   public userOrderHistory: UserOrderHistory;
-  public bRequestError: boolean = false;
-  public bIsProcessingRequest: boolean = false;
   public aShowOrderDetailsIDs: Array<number> = [];
 
-  constructor( public userService: UserService ) { }
+  constructor( public userService: UserService, public route: ActivatedRoute) { }
 
   ngOnInit()
   {
-    this.getOrderHistory();
+    this.userOrderHistory = this.route.snapshot.data['orderHistory'];
   }
 
-
-  getOrderHistory()
-  {
-    this.bIsProcessingRequest = true;
-    this.userService.getUserOrderHistory().subscribe( result => {
-        if ( !result )
-        {
-          this.bRequestError = true;
-        }
-        else
-        {
-            this.userOrderHistory  = <UserOrderHistory>result;
-        }
-        this.bIsProcessingRequest = false;
-    });
-  }
 
   showOrderDetails( orderID: number )
-  {
-
+  {    
     let index = this.aShowOrderDetailsIDs.indexOf( orderID );
     //if not showing, show order info
     if ( index == -1 )
@@ -54,9 +35,7 @@ export class OrderHistoryComponent implements OnInit {
     {
       this.aShowOrderDetailsIDs.splice( index, 1 );
     }
-
   }
-
 
   isOrderDetailsVisible( orderID: number )
   {

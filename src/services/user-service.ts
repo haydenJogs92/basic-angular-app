@@ -8,6 +8,7 @@ import { AuthHttp } from 'angular2-jwt'
 import { Router, ActivatedRoute } from '@angular/router';
 import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 //run map on observable
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 
 import {UserData, UserOrderHistory, Order} from '../models/models';
@@ -20,9 +21,14 @@ export class UserService
 
   public testEmail: string = 'test@test.com';
   public testPassword: string = 'test';
+  public userID: number;
 
 
-  constructor( public http: Http, public authHttp: AuthHttp, public router: Router, public currentRoute: ActivatedRoute ){}
+
+  constructor( public http: Http,
+               public authHttp: AuthHttp,
+               public router: Router,
+               public currentRoute: ActivatedRoute ){}
 
 
   //send a request to a fake backend
@@ -35,13 +41,14 @@ export class UserService
     .map( response => {
      let result = response.json();
      //if valid and we have a jwtToken
-
      if ( result && result.jwtToken )
      {
        //then store in local storage
-       this.setUserDetailsInStorage( result.jwtToken, <UserData>result.data  )
-       //navigate to user page
-       this.router.navigate(['/user-details/']);
+       this.setTokenInStorage( result.jwtToken )
+       //then set user ID from token
+       this.setUserIDFromStorage();
+       //navigate to user page, with user id as param
+       this.router.navigate(['/user/', this.userID]);
        return true;
      }
      else
@@ -65,7 +72,7 @@ export class UserService
      if ( result && result.jwtToken )
      {
        //update user details in local storage
-       this.setUserDetailsInStorage( result.jwtToken,  <UserData>result.data )
+       this.setTokenInStorage( result.jwtToken )
        return true;
      }
      else
@@ -77,22 +84,50 @@ export class UserService
   }
 
   //set jwt token and user details in local storage
-  setUserDetailsInStorage( token: string, userData: UserData )
+  setTokenInStorage( token: string )
   {
     localStorage.setItem( 'token', token );
-    localStorage.setItem( 'userInfo', JSON.stringify( <UserData>userData ) );
   }
 
 
-
-  getUserInfoFromStorage()
+  //set the user ID from storage, so that the user, if logged in, can have persistent sessions
+  setUserIDFromStorage()
   {
     //if we have a token for this user
     if ( this.isUserLoggedIn() )
     {
-      let userInfo = <UserData>JSON.parse(localStorage.getItem( 'userInfo' ));
-      return  userInfo;
+      //get user id from token in local storage
+      let token = localStorage.getItem('token');
+      if (token) {
+        let jwt = new JwtHelper();
+        let result = jwt.decodeToken(token);
+        this.userID = result.userID;
+      }
     }
+  }
+  
+  getUserInfoFromAPI( userID: string )
+  {
+    if ( this.isUserLoggedIn() )
+    {
+      //make api call
+      let creds = {userID: userID};
+      //not sending token currently
+      return this.authHttp.post('/api/user-details', JSON.stringify(creds))
+      .map( response => {
+         let result = response.json();
+         //if valid and we have a jwtToken
+         if ( result && result.jwtToken )
+         {
+           return <UserData>result.data;
+         }
+         else
+         {
+           this.logOut()
+         }
+       });
+
+     }
     return null;
   }
 
@@ -117,9 +152,9 @@ export class UserService
 
   //return http post, sent to protected endpoint, so api requires JWT
   //return UserOrderHistory
-  getUserOrderHistory()
+  getUserOrderHistory( userID: string )
   {
-    let creds = '';
+    let creds = {userID: userID};
     return this.authHttp.post('/api/user-order-history', JSON.stringify(creds))
     .map( response => {
      let result = response.json();
@@ -140,9 +175,8 @@ export class UserService
   logOut()
   {
       //unset jwt token
-      //unset user info
       localStorage.removeItem( 'token' );
-      localStorage.removeItem( 'userInfo' );
+      this.userID = null;
       this.router.navigate(['/']);
   }
 

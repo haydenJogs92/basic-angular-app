@@ -51,5 +51,5 @@
         Updating user info....
       </div>
     </div>
-    <p><a class="nav-link" routerLink="/user-details">Back To My Account</a></p>
+    <p><a class="nav-link" [routerLink]="['/user/', userService.userID]">Back To My Account</a></p>
 </form>

@@ -19,6 +19,7 @@ export class LoginFormComponent
   public loginForm: FormGroup;
   public formErrors: boolean = false;
   public bIsProcessingLogin: boolean = false;
+  public bLoginSuccess: boolean = false;
 
   constructor( public userService: UserService,
                public form: FormBuilder) {}
@@ -44,6 +45,10 @@ export class LoginFormComponent
           if ( !result )
           {
             this.formErrors = true;
+          }
+          else
+          {
+            this.bLoginSuccess = true;
           }
           this.bIsProcessingLogin = false;
       })
