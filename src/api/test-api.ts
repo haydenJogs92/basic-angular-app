@@ -42,10 +42,15 @@ export function testApiFactory( backend: MockBackend, options: BaseRequestOption
     setTimeout(() => {
 
 
-      //match for login api request
-      if (connection.request.url.endsWith('/api/user-login') &&
-          connection.request.method === RequestMethod.Post)
-          {
+      let connectionUrl = connection.request.url;
+      if ( connection.request.method === RequestMethod.Post )
+      {
+        switch ( connectionUrl )
+        {
+
+
+          //match for login api request
+          case '/api/user-login':
             //get request body
             let body = JSON.parse( connection.request.getBody() );
               //if creds match, mock a response
@@ -66,35 +71,34 @@ export function testApiFactory( backend: MockBackend, options: BaseRequestOption
                 //user creds don't match, don't return token
                 connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
               }
-          }
+          break;
 
 
 
-        //match for user get details request
-        if (connection.request.url.endsWith('/api/user-details') &&
-            connection.request.method === RequestMethod.Post)
-            {
-              //if headers have jwt token
-              if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
-                  //get the user's current data
-                  let body = JSON.parse( connection.request.getBody() );
-                  //return token and user data
-                  connection.mockRespond(new Response(
-                      new ResponseOptions({ status: 200, body: { jwtToken: token, data: userData } })
-                  ));
-              } else {
-                  connection.mockRespond(new Response(
-                      new ResponseOptions({ status: 401 })
-                  ));
-              }
+
+
+          //match for user get details request
+          case '/api/user-details':
+            //if headers have jwt token
+            if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
+                //get the user's current data
+                let body = JSON.parse( connection.request.getBody() );
+                //return token and user data
+                connection.mockRespond(new Response(
+                    new ResponseOptions({ status: 200, body: { jwtToken: token, data: userData } })
+                ));
+            } else {
+                connection.mockRespond(new Response(
+                    new ResponseOptions({ status: 401 })
+                ));
             }
+          break;
 
 
 
-      //match for user update api request
-      if (connection.request.url.endsWith('/api/user-update') &&
-          connection.request.method === RequestMethod.Post)
-          {
+
+
+          case '/api/user-update':
             //if headers have jwt token
             if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
               //update the user data
@@ -115,126 +119,142 @@ export function testApiFactory( backend: MockBackend, options: BaseRequestOption
                     new ResponseOptions({ status: 401 })
                 ));
             }
-          }
 
-
+          break;
 
 
           //match for user get order history  api request
-          if (connection.request.url.endsWith('api/user-order-history') &&
-              connection.request.method === RequestMethod.Post)
-              {
-                //if headers have jwt token
-                if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
-                  //update the user data
-                    let body = JSON.parse( connection.request.getBody() );
+          case '/api/user-order-history':
+            //if headers have jwt token
+            console.log('get order history')
 
-                    //return token and user order history
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({ status: 200, body: { jwtToken: token, data: userOrderHistory } })
-                    ));
-                } else {
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({ status: 401 })
-                    ));
-                }
-              }
+            if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
+              //update the user data
+                let body = JSON.parse( connection.request.getBody() );
+
+                //return token and user order history
+                connection.mockRespond(new Response(
+                    new ResponseOptions({ status: 200, body: { jwtToken: token, data: userOrderHistory } })
+                ));
+            } else {
+                connection.mockRespond(new Response(
+                    new ResponseOptions({ status: 401 })
+                ));
+            }
+          break;
 
 
 
-          //write for get available products
-          if (connection.request.url.endsWith('/api/get-products') &&
-              connection.request.method === RequestMethod.Post)
-              {
-                //if headers have jwt token
-                if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
 
-                  let prod1: Product =  {productID: 1223, productName:'Widget 1', productPrice:120};
-                  let prod2: Product =  {productID: 4233, productName:'Widget 2', productPrice:70};
-                  let prod3: Product =  {productID: 12333, productName:'Cool New Product', productPrice:20};
-                  let prod4: Product =  {productID: 2233, productName:'Widget 3', productPrice:50};
+          //get all available products
+          case '/api/get-products':
+            //if headers have jwt token
+            if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
 
-                  let products = [ prod1, prod2, prod3, prod4,];
-                    //return token and available products
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({ status: 200, body: { jwtToken: token, data: products } })
-                    ));
-                } else {
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({ status: 401 })
-                    ));
-                }
-              }
+              let prod1: Product =  {productID: 1223, productName:'Widget 1', productPrice:120};
+              let prod2: Product =  {productID: 4233, productName:'Widget 2', productPrice:70};
+              let prod3: Product =  {productID: 12333, productName:'Cool New Product', productPrice:20};
+              let prod4: Product =  {productID: 2233, productName:'Widget 3', productPrice:50};
+
+              let products = [ prod1, prod2, prod3, prod4,];
+                //return token and available products
+                connection.mockRespond(new Response(
+                    new ResponseOptions({ status: 200, body: { jwtToken: token, data: products } })
+                ));
+            } else {
+                connection.mockRespond(new Response(
+                    new ResponseOptions({ status: 401 })
+                ));
+            }
+          break;
+
+
+
 
 
 
           //place order
-          if (connection.request.url.endsWith('/api/submit-order') &&
-              connection.request.method === RequestMethod.Post)
-              {
-                //if headers have jwt token
-                if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
+          case '/api/submit-order':
+          //if headers have jwt token
+          if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
 
-                    let body = JSON.parse( connection.request.getBody() );
+              let body = JSON.parse( connection.request.getBody() );
 
-                    //set transaction date
-                    var today = new Date();
-                    var dd = today.getDate();
-                    var mm = today.getMonth()+1; //January is 0!
-                    var yyyy = today.getFullYear();
+              //set transaction date
+              var today = new Date();
+              var dd = today.getDate();
+              var mm = today.getMonth()+1; //January is 0!
+              var yyyy = today.getFullYear();
 
-                    var sToday = mm+'/'+dd+'/'+yyyy;
-                    body.orderDate = sToday;
-                    body.foreignKeyUserID = 1;
-                    body.orderID = Math.floor( Math.random() * 90000 ) + 10000;
+              var sToday = mm+'/'+dd+'/'+yyyy;
+              body.orderDate = sToday;
+              body.foreignKeyUserID = 1;
+              body.orderID = Math.floor( Math.random() * 90000 ) + 10000;
 
-                    //complete order and add to history
-                    userOrderHistory.orders.unshift( body );
+              //complete order and add to history
+              userOrderHistory.orders.unshift( body );
 
-                    //return token and available products
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({ status: 200, body: { jwtToken: token, data: body } })
-                    ));
-                } else {
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({ status: 401 })
-                    ));
-                }
-              }
+              //return token and available products
+              connection.mockRespond(new Response(
+                  new ResponseOptions({ status: 200, body: { jwtToken: token, data: body } })
+              ));
+          } else {
+              connection.mockRespond(new Response(
+                  new ResponseOptions({ status: 401 })
+              ));
+          }
 
 
+          break;
 
-          //get order info by order #
-          if (connection.request.url.endsWith('/api/order-confirmation') &&
-              connection.request.method === RequestMethod.Post)
-              {
-                //if headers have jwt token
-                if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
 
-                    let iOrderNumber = parseInt( JSON.parse( connection.request.getBody() ).orderID );                    
-                    let oReturn = null;
-                    //get order from user order history
-                    for ( let order of userOrderHistory.orders )
+
+          //get info for order confirmation page
+          case '/api/order-confirmation':
+            //if headers have jwt token
+            if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
+
+                let iOrderNumber = parseInt( JSON.parse( connection.request.getBody() ).orderID );
+                let oReturn = null;
+                //get order from user order history
+                for ( let order of userOrderHistory.orders )
+                {
+                    if ( order.orderID === iOrderNumber )
                     {
-                        if ( order.orderID === iOrderNumber )
-                        {
-                          oReturn = order;
-                        }
+                      oReturn = order;
                     }
-                    //return token and available products
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({ status: 200, body: { jwtToken: token, data: oReturn } })
-                    ));
-                } else {
-                    connection.mockRespond(new Response(
-                        new ResponseOptions({ status: 401 })
-                    ));
                 }
-              }
+                //return token and available products
+                connection.mockRespond(new Response(
+                    new ResponseOptions({ status: 200, body: { jwtToken: token, data: oReturn } })
+                ));
+            } else {
+                connection.mockRespond(new Response(
+                    new ResponseOptions({ status: 401 })
+                ));
+            }
+
+          break;
+
+
+          default:
+          
+          connection.mockRespond(new Response(
+              new ResponseOptions({ status: 404 })
+          ));
 
 
 
-      //as the app expands, we can spoof other http responses, make order, update user info,
+        }
+      }
+
+
+
+
+
+
+
+
 
     }, 500)
   });

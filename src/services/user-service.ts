@@ -8,8 +8,9 @@ import { AuthHttp } from 'angular2-jwt'
 import { Router, ActivatedRoute } from '@angular/router';
 import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 //run map on observable
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+
 
 import {UserData, UserOrderHistory, Order} from '../models/models';
 
@@ -105,7 +106,7 @@ export class UserService
       }
     }
   }
-  
+
   getUserInfoFromAPI( userID: string )
   {
     if ( this.isUserLoggedIn() )
@@ -125,7 +126,7 @@ export class UserService
          {
            this.logOut()
          }
-       });
+       })
 
      }
     return null;
@@ -135,18 +136,7 @@ export class UserService
   isUserLoggedIn()
   {
     //if token is set && not expired
-
     return tokenNotExpired();
-    //alternatively, you can read the token here to check if it is expired
-    /*
-    let token = localStorage.getItem( 'token' );
-    if ( token == null )
-    {
-      return null
-    }
-    let jwtHelper = new JwtHelper();
-    return jwtHelper.decodeToken( token );
-    */
   }
 
 
@@ -165,7 +155,8 @@ export class UserService
      }
      else
      {
-       return false;
+        this.logOut();
+
      }
    });
 
@@ -178,7 +169,7 @@ export class UserService
       localStorage.removeItem( 'token' );
       this.userID = null;
       this.router.navigate(['/']);
-  }
+    }
 
 
 }

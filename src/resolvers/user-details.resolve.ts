@@ -11,6 +11,6 @@ export class UserDetailsResolve implements Resolve<UserData>
 
   resolve( route: ActivatedRouteSnapshot )
   {
-    return this.userService.getUserInfoFromAPI( route.paramMap.get('id') );
+    return this.userService.getUserInfoFromAPI( route.paramMap.get('id') )
   }
 }
