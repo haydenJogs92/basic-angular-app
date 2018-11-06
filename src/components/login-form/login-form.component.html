@@ -37,7 +37,7 @@
       </div>
       <div *ngIf="!bIsProcessingLogin && formErrors" >
           <div class="alert alert-danger" role="alert">
-            The provided email and password do not match our records.
+            {{formErrorMessage}}
           </div>
       </div>
       <!--<div class="commonSpacing linkColor">

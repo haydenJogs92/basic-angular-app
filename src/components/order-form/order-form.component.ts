@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router'
 import {  Product, Order } from '../../models/models';
@@ -10,7 +10,8 @@ import {Subscription} from 'rxjs';
   templateUrl: './order-form.component.html',
   styleUrls: ['./order-form.component.css']
 })
-export class OrderFormComponent implements OnInit {
+
+export class OrderFormComponent implements OnInit, OnDestroy {
 
 
   public orderForm: FormGroup;

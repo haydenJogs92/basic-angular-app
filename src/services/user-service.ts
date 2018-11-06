@@ -7,12 +7,14 @@ import { AuthHttp } from 'angular2-jwt'
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
-//run map on observable
-import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+//throw method is a static method on the observable class, not an instantiated obj
+//a factory method Observale.throw
 
+import { AppErrorHandler } from './app-error-handler'
 
-import {UserData, UserOrderHistory, Order} from '../models/models';
+import {UserData, UserOrderHistory, Order, AppError, NotFoundError } from '../models/models';
 
 @Injectable()
 
@@ -29,7 +31,8 @@ export class UserService
   constructor( public http: Http,
                public authHttp: AuthHttp,
                public router: Router,
-               public currentRoute: ActivatedRoute ){}
+               public currentRoute: ActivatedRoute,
+               public appErrorHandler: AppErrorHandler){}
 
 
   //send a request to a fake backend
@@ -41,6 +44,12 @@ export class UserService
     return this.http.post('/api/user-login', JSON.stringify(creds))
     .map( response => {
      let result = response.json();
+     
+     if ( result.error === "InvalidLogin" )
+     {
+       return result;
+     }
+
      //if valid and we have a jwtToken
      if ( result && result.jwtToken )
      {
@@ -54,9 +63,11 @@ export class UserService
      }
      else
      {
-       return false;
+       this.logOut()
+       throw new AppError( 'Session Expired' );
      }
-   });
+   })
+   .catch(this.appErrorHandler.httpCatchHandleError);
 
   }
 
@@ -78,9 +89,11 @@ export class UserService
      }
      else
      {
-       return false;
+       this.logOut()
+       throw new AppError( 'Session Expired' );
      }
-   });
+   })
+   .catch(this.appErrorHandler.httpCatchHandleError);
 
   }
 
@@ -109,27 +122,24 @@ export class UserService
 
   getUserInfoFromAPI( userID: string )
   {
-    if ( this.isUserLoggedIn() )
-    {
-      //make api call
-      let creds = {userID: userID};
-      //not sending token currently
-      return this.authHttp.post('/api/user-details', JSON.stringify(creds))
-      .map( response => {
-         let result = response.json();
-         //if valid and we have a jwtToken
-         if ( result && result.jwtToken )
-         {
-           return <UserData>result.data;
-         }
-         else
-         {
-           this.logOut()
-         }
-       })
-
-     }
-    return null;
+    //make api call
+    let creds = {userID: userID};
+    //not sending token currently
+    return this.authHttp.post('/api/user-details', JSON.stringify(creds))
+    .map( response => {
+       let result = response.json();
+       //if valid and we have a jwtToken
+       if ( result && result.jwtToken )
+       {
+         return <UserData>result.data;
+       }
+       else
+       {
+         this.logOut()
+         throw new AppError( 'Session Expired' );
+       }
+     })
+     .catch(this.appErrorHandler.httpCatchHandleError)
   }
 
   //check the token and its expiration date with jwthelper global method
@@ -155,21 +165,21 @@ export class UserService
      }
      else
      {
-        this.logOut();
-
+       this.logOut();
+       throw new AppError( 'Session Expired' );
      }
-   });
-
+   })
+   .catch(this.appErrorHandler.httpCatchHandleError);
   }
 
 
   logOut()
   {
-      //unset jwt token
-      localStorage.removeItem( 'token' );
-      this.userID = null;
-      this.router.navigate(['/']);
-    }
+    //unset jwt token
+    localStorage.removeItem( 'token' );
+    this.userID = null;
+    this.router.navigate(['/']);
+  }
 
 
 }

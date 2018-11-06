@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { HttpModule, BaseRequestOptions, Http } from '@angular/http';
@@ -24,7 +24,7 @@ import { OrderFormComponent } from '../components/order-form/order-form.componen
 import { OrderDetailsComponent } from '../components/order-details/order-details.component';
 import { FloatingLabelInputComponent } from '../components/floating-label-input/floating-label-input.component';
 import { OrderConfirmationComponent } from '../components/order-confirmation/order-confirmation.component';
-
+import { ErrorMessageComponent } from '../components/error-message/error-message.component';
 
 //models
 import {UserData,UserOrderHistory,Order,Product} from '../models/models';
@@ -35,6 +35,8 @@ import { OrderService } from '../services/order-service';
 import { ValidationService } from '../services/validation-service';
 import { AuthGuard } from '../services/auth-guard-service';
 
+//global error handler
+import { AppErrorHandler } from '../services/app-error-handler';
 
 //resolvers
 import { UserDetailsResolve } from '../resolvers/user-details.resolve'
@@ -47,6 +49,7 @@ import { routes } from './app.routes'
 
 //use for passing token in http request to access protected api endpoints
 import { AuthHttp, AUTH_PROVIDERS, provideAuth, AuthConfig } from 'angular2-jwt/angular2-jwt';
+
 
 
 
@@ -83,6 +86,7 @@ export function getAuthHttp(http) {
     OrderFormComponent,
     OrderConfirmationComponent,
     OrderDetailsComponent,
+    ErrorMessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,6 +111,12 @@ export function getAuthHttp(http) {
       provide: AuthHttp,
       useFactory: getAuthHttp,
       deps: [Http]
+    },
+    AppErrorHandler,
+    //custom error handler
+    {
+      provide: ErrorHandler,
+      useClass: AppErrorHandler
     },
 
     //data Models

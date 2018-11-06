@@ -18,6 +18,7 @@ export class LoginFormComponent
 
   public loginForm: FormGroup;
   public formErrors: boolean = false;
+  public formErrorMessage: string;
   public bIsProcessingLogin: boolean = false;
   public bLoginSuccess: boolean = false;
 
@@ -42,12 +43,14 @@ export class LoginFormComponent
       this.bIsProcessingLogin = true;
       this.userService.userLoginRequest( this.loginForm.value.sEmail, this.loginForm.value.sPassword )
       .subscribe( result => {
-          if ( !result )
-          {
+          if ( result.error )
+          {            
             this.formErrors = true;
+            this.formErrorMessage = result.message;
           }
           else
           {
+            this.formErrors = false;
             this.bLoginSuccess = true;
           }
           this.bIsProcessingLogin = false;

@@ -1,5 +1,5 @@
 
-import { Http, BaseRequestOptions, Response, ResponseOptions, RequestMethod } from '@angular/http';
+import { Http, BaseRequestOptions, Response, ResponseType, ResponseOptions, RequestMethod } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { UserData, UserOrderHistory, Order, Product } from '../models/models';
@@ -11,6 +11,11 @@ When running tests we can tell angular to use this factory function to handle re
 In this case, we just want to implement User Authentication
 If user creds match, provide a Http Response with a JWT token
 */
+
+class MockError extends Response implements Error {
+    name:any
+    message:any
+}
 
 
 export function testApiFactory( backend: MockBackend, options: BaseRequestOptions)
@@ -68,8 +73,11 @@ export function testApiFactory( backend: MockBackend, options: BaseRequestOption
               }
               else
               {
-                //user creds don't match, don't return token
-                connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
+                connection.mockRespond(new Response(
+                  new ResponseOptions({
+                    status: 200,
+                    body: { error: 'InvalidLogin', message: 'We were unable to find an account matching those credentials.' }
+                  })));
               }
           break;
 
@@ -126,8 +134,6 @@ export function testApiFactory( backend: MockBackend, options: BaseRequestOption
           //match for user get order history  api request
           case '/api/user-order-history':
             //if headers have jwt token
-            console.log('get order history')
-
             if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
               //update the user data
                 let body = JSON.parse( connection.request.getBody() );
@@ -236,12 +242,13 @@ export function testApiFactory( backend: MockBackend, options: BaseRequestOption
 
           break;
 
-
+          //how to mock error
+          //https://stackoverflow.com/questions/35436261/how-to-mock-http-error-for-angular2-testing#answer-39863549
           default:
-          
-          connection.mockRespond(new Response(
-              new ResponseOptions({ status: 404 })
-          ));
+          let opts = {type:ResponseType.Error, status:404, body: ''};
+          let responseOpts = new ResponseOptions(opts);
+          connection.mockError(new MockError(responseOpts));
+
 
 
 
